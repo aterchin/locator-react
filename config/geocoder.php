@@ -60,6 +60,7 @@ return [
             GoogleMaps::class => [
                 env('GOOGLE_MAPS_LOCALE', 'us'),
                 env('GOOGLE_MAPS_API_KEY'),
+                env('GOOGLE_GEOCODER_API_KEY'),
             ],
             GeoPlugin::class  => [],
         ],
