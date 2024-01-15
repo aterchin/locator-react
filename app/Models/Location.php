@@ -12,6 +12,13 @@ class Location extends Model
     protected $guarded = [];
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['location_hash'];
+
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
