@@ -1,6 +1,25 @@
 import { Head } from "@inertiajs/react";
+import { useEffect, useState } from "react";
+import axiosClient from "@/axios";
 
 const BusinessLocator = () => {
+    const [loading, setLoading] = useState(false);
+    const [businesses, setBusinesses] = useState([]);
+
+    const getBusinesses = (url) => {
+        setLoading(true);
+        url = url || "/businesses";
+        axiosClient.get(url).then(({ data }) => {
+            console.log(data);
+            setBusinesses(data.data);
+            setLoading(false);
+        });
+    };
+
+    useEffect(() => {
+        getBusinesses();
+    }, []);
+
     return (
         <>
             <Head title="Business Locator | Laravel/React" />
