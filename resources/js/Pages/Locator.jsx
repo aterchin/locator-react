@@ -18,6 +18,9 @@ const Locator = () => {
     const [businesses, setBusinesses] = useState([]);
     const [meta, setMeta] = useState({});
 
+    // active: business id (int) or null
+    const [active, setActive] = useState(null);
+
     // Google Places API
     const libraries = useMemo(() => ['places', 'geometry'], []);
     const mapLoader = useLoadScript({
@@ -47,6 +50,10 @@ const Locator = () => {
 
     const onClickPage = (link) => {
         console.log('pagination clicked: ', link);
+    };
+
+    const toggleActive = (id) => {
+        setActive(id);
     };
 
     useEffect(() => {
@@ -130,7 +137,12 @@ const Locator = () => {
                                     <div className="hidden md:block md:basis-1/2 lg:basis-3/4">
                                         <div className="m-2 p-1 border border-brand-primary-200">
                                             <div id="main-map">
-                                                <Map center={center} businesses={businesses} />
+                                                <Map
+                                                    center={center}
+                                                    businesses={businesses}
+                                                    active={active}
+                                                    onToggleActive={toggleActive}
+                                                />
                                             </div>
                                         </div>
                                     </div>
