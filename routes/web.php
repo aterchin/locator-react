@@ -18,7 +18,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('BusinessLocator');
+    return Inertia::render('Locator');
 });
 
 Route::get('/api/businesses', [BusinessController::class, 'index']);

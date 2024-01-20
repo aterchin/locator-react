@@ -17,14 +17,14 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                'brand-green': {
-                    200: '#2e4237',
-                    DEFAULT: '#029840',
-                    light: '#9fffc7',
+                'brand-primary': {
+                    200: '#201d23',
+                    DEFAULT: '#5944d4',
+                    light: '#a3d1eb',
                 },
-                'brand-orange': {
-                    DEFAULT: '#a23c1a',
-                    light: '#efbeae',
+                'brand-secondary': {
+                    DEFAULT: '#696969',
+                    light: '#8b8b8b',
                 },
             },
         },
