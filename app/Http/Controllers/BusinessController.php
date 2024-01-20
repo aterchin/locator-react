@@ -14,7 +14,7 @@ class BusinessController extends Controller
     public function index()
     {
         return BusinessResource::collection(
-            Business::orderBy('created_at', 'desc')
+            Business::orderBy('created_at', 'asc')
                 ->paginate(5)
         );
     }
