@@ -24,4 +24,14 @@ class Location extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Cast proper values
+     *
+     * @var array
+     */
+    protected $casts = [
+        'latitude' => 'float',
+        'longitude' => 'float',
+    ];
 }
