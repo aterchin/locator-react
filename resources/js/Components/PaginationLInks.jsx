@@ -1,13 +1,13 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 
 // https://tailwindui.com/components/application-ui/navigation/pagination
-export default function PaginationLinks({ meta, onPageClick }) {
+export default function PaginationLinks({ meta, onClickPage }) {
     function onClick(e, link) {
         e.preventDefault();
         if (!link.url) {
             return;
         }
-        onPageClick(link);
+        onClickPage(link);
     }
 
     const renderPrev = (

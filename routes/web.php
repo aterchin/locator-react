@@ -21,7 +21,7 @@ Route::get('/', function () {
     return Inertia::render('Locator');
 });
 
-Route::get('/api/businesses', [BusinessController::class, 'index']);
+Route::get('/api/locations', [BusinessController::class, 'index']);
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome', [

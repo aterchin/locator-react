@@ -15,7 +15,7 @@ const Locator = () => {
 
     const getBusinesses = (url) => {
         setLoading(true);
-        url = url || '/businesses';
+        url = url || '/locations';
         axiosClient.get(url).then(({ data }) => {
             console.log(data);
             setBusinesses(data.data);
@@ -33,13 +33,17 @@ const Locator = () => {
         console.log('getting your geolocation from browser...');
     };
 
+    const onClickPage = (link) => {
+        console.log('pagination clicked: ', link);
+    };
+
     useEffect(() => {
         getBusinesses();
     }, []);
 
     return (
         <>
-            <Head title="Business Locator | Laravel/React" />
+            <Head title="Locator | Laravel/React" />
             <div className="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-center text-brand-primary-200 bg-gray-100 selection:bg-brand-secondary/50 selection:text-white">
                 <div className="w-full p-4">
                     {loading ? (
@@ -118,7 +122,7 @@ const Locator = () => {
                                     </div>
                                 </div>
                             </div>
-                            {/* <PaginationLinks meta={meta} onPageClick={onPageClick} /> */}
+                            <PaginationLinks meta={meta} onClickPage={onClickPage} />
                         </div>
                     )}
                 </div>
