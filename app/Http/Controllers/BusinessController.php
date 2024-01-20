@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\BusinessResource;
+use App\Helpers\LocationHelper;
 use App\Models\Business;
+use App\Http\Resources\BusinessResource;
 use Illuminate\Http\Request;
 
 class BusinessController extends Controller
@@ -11,12 +12,45 @@ class BusinessController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        // Defaulting to NYC within 10 miles
+        $lat = 40.7639;
+        $lng = -73.9794;
+        $distance = 10;
+        $place = '';
+
+        if ($request->has('distance')) {
+            $distance = $request->distance;
+        }
+
+        if ($request->has('place')) {
+            $place = $request->place;
+        }
+
+        if ($request->has('coordinates.lat') && $request->has('coordinates.lng')) {
+            $coordinates = $request->coordinates;
+            extract($coordinates);
+        }
+
+
         return BusinessResource::collection(
-            Business::orderBy('created_at', 'asc')
-                ->paginate(5)
-        );
+            Business::whereHas('location', function ($query) use ($lat, $lng, $distance) {
+                $helper = new LocationHelper();
+                $helper->scopeWithinMilesOf($query, $lat, $lng, $distance);
+            })
+                ->limit(120)
+                ->paginate(40)
+                ->appends(request()->query())
+        )->additional([
+            // send request back to update
+            'search' => [
+                'coordinates' => ['lat' => floatval($lat), 'lng' => floatval($lng)],
+                'distance' => intval($distance),
+                'place' => $place
+            ]
+        ]);
     }
 
     /**

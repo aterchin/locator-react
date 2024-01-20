@@ -5,21 +5,31 @@ import axiosClient from '@/axios';
 
 import BusinessList from '@/Components/BusinessList';
 import PaginationLinks from '@/Components/PaginationLinks';
+import PlacesInput from '@/Components/PlacesInput';
+import DistanceInput from '@/Components/DistanceInput';
 import Map from '@/Components/Map';
 
 import { ChevronRightIcon } from '@heroicons/react/20/solid';
 
 const Locator = () => {
     const [loading, setLoading] = useState(false);
-
-    // NYC
-    const [center, setCenter] = useState({ lat: 40.7639, lng: -73.9794 });
-
     const [businesses, setBusinesses] = useState([]);
+
+    // Result meta data (obj)
     const [meta, setMeta] = useState({});
+    // [start, end] per paginated page
+    const [fromTo, setFromTo] = useState([0, 0]);
+
+    // NYC (default)
+    // { lat: (int), lng: (int) } (obj)
+    const [coordinates, setCoordinates] = useState({ lat: 40.7639, lng: -73.9794 });
+    const [place, setPlace] = useState('20 W 34th St., New York, NY 10001');
+    const [distance, setDistance] = useState(10); // miles from center (int)
 
     // active: business id (int) or null
     const [active, setActive] = useState(null);
+
+    const [search, setSearch] = useState({});
 
     // Google Places API
     const libraries = useMemo(() => ['places', 'geometry'], []);
@@ -28,15 +38,28 @@ const Locator = () => {
         libraries: libraries,
     });
 
-    const getBusinesses = (url) => {
+    const getBusinesses = (url, params) => {
         setLoading(true);
         url = url || '/locations';
-        axiosClient.get(url).then(({ data }) => {
-            console.log(data);
-            setBusinesses(data.data);
-            setMeta(data.meta);
-            setLoading(false);
-        });
+        params = params || { coordinates, place, distance };
+        //console.log(params);
+        axiosClient
+            .get(url, { params })
+            .then(({ data }) => {
+                setBusinesses(data.data);
+                setMeta(data.meta);
+                setFromTo([data.meta.from, data.meta.to]);
+                // to update our front-facing components
+                setSearch(data.search);
+                // so if you do the same search no one is active
+                setActive(null);
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     const onClickFind = () => {
@@ -58,7 +81,7 @@ const Locator = () => {
 
     useEffect(() => {
         getBusinesses();
-    }, []);
+    }, [coordinates]);
 
     return (
         <>
@@ -77,7 +100,11 @@ const Locator = () => {
                                                 Find business by location
                                             </div>
                                             <div className="border border-brand-primary-light my-4 md:my-0 lg:border-0">
-                                                [Place input]
+                                                <PlacesInput
+                                                    setCoordinates={setCoordinates}
+                                                    setPlace={setPlace}
+                                                    placeholder={search.place}
+                                                />
                                             </div>
                                         </div>
                                         <div className="relative md:w-1/4">
@@ -85,7 +112,10 @@ const Locator = () => {
                                                 Maximum Distance
                                             </div>
                                             <div className="border border-brand-primary-light my-4 md:my-0  md:border-0">
-                                                [Distance input]
+                                                <DistanceInput
+                                                    distance={distance}
+                                                    setDistance={setDistance}
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -130,7 +160,12 @@ const Locator = () => {
                                                     </p>
                                                 </div>
                                             ) : (
-                                                <BusinessList businesses={businesses} />
+                                                <BusinessList
+                                                    businesses={businesses}
+                                                    fromTo={fromTo}
+                                                    active={active}
+                                                    onToggleActive={toggleActive}
+                                                />
                                             )}
                                         </div>
                                     </div>
@@ -138,8 +173,9 @@ const Locator = () => {
                                         <div className="m-2 p-1 border border-brand-primary-200">
                                             <div id="main-map">
                                                 <Map
-                                                    center={center}
+                                                    center={coordinates}
                                                     businesses={businesses}
+                                                    fromTo={fromTo}
                                                     active={active}
                                                     onToggleActive={toggleActive}
                                                 />
