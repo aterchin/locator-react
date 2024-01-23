@@ -33,13 +33,11 @@ const Map = ({ center, businesses, fromTo, active, onToggleActive }) => {
 
     const handleMarkerClick = (id) => {
         //const index = businesses.findIndex((el) => el.id === parseInt(id));
-        //console.log('click', index);
-
         onToggleActive(id);
     };
-    const onMarkerMouseOver = (id) => {
-        //console.log('mouseover', id);
-    };
+    // const onMarkerMouseOver = (id) => {
+    //     //console.log('mouseover', id);
+    // };
 
     const markerCenter = {
         url: pinCenter,
@@ -81,7 +79,8 @@ const Map = ({ center, businesses, fromTo, active, onToggleActive }) => {
                                 icon={active === b.id ? markerActive : markerInactive}
                                 title={title}
                                 onClick={() => handleMarkerClick(b.id)}
-                                onMouseOver={() => onMarkerMouseOver(b.id)}
+                                //onMouseOver={() => onMarkerMouseOver(b.id)}
+                                zIndex={active === b.id ? 2 : 1}
                             />
                         );
                     })}

@@ -169,7 +169,6 @@ const Locator = () => {
                                             ) : (
                                                 <BusinessList
                                                     businesses={businesses}
-                                                    fromTo={fromTo}
                                                     active={active}
                                                     onToggleActive={toggleActive}
                                                 />

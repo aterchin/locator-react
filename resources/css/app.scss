@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-#main-map {
-    min-height: 300px;
+.business-list-item {
+    position: relative;
+    padding-left: 2.5rem;
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        height: 2.25rem;
+        width: 2.25rem;
+        top: 1rem;
+        left: 0.25rem;
+        background-color: transparent;
+        background-repeat: no-repeat;
+        background-position: 0 0;
+    }
+    &.inactive {
+        &:before {
+            background-image: url(../svg/noun-map-pin-inactive.svg);
+        }
+    }
+    &.active {
+        &:before {
+            background-image: url(../svg/noun-map-pin.svg);
+        }
+    }
+
 }

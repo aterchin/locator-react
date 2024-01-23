@@ -1,8 +1,15 @@
 import BusinessListItem from './BusinessListItem';
 
-const BusinessList = ({ businesses }) => {
-    const renderedItems = businesses.map((b) => {
-        return <BusinessListItem key={b.id} business={b} />;
+const BusinessList = ({ businesses, active, onToggleActive }) => {
+    const renderedItems = businesses.map((business) => {
+        return (
+            <BusinessListItem
+                key={business.id}
+                business={business}
+                active={active}
+                onToggleActive={onToggleActive}
+            />
+        );
     });
 
     return <>{renderedItems}</>;
