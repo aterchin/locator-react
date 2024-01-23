@@ -147,8 +147,15 @@ const Locator = () => {
                                 <div className="flex flex-row gap-3">
                                     <div className="w-full md:basis-1/2 lg:basis-1/3 px-4">
                                         <div className="flex flex-row lg:flex-col items-start mb-6">
-                                            <div className="font-semibold">N results found</div>
-                                            <div>within N miles of X</div>
+                                            <div className="font-semibold">
+                                                {meta.total} results found
+                                            </div>
+                                            <div>
+                                                {search.place &&
+                                                    ` within ${String(
+                                                        search.distance,
+                                                    )} miles from ${search.place}`}
+                                            </div>
                                         </div>
                                         <div className="overflow-y-auto overscroll-contain h-[60vh]">
                                             {!businesses || businesses.length === 0 ? (
