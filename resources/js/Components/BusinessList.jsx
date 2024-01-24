@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import BusinessListItem from './BusinessListItem';
 
-const BusinessList = ({ businesses, active, onToggleActive }) => {
+const BusinessList = ({ businesses, active, onToggleActive, origin }) => {
     const itemsRef = useRef(null);
 
     //react.dev/learn/manipulating-the-dom-with-refs#how-to-manage-a-list-of-refs-using-a-ref-callback
@@ -45,6 +45,7 @@ const BusinessList = ({ businesses, active, onToggleActive }) => {
                     business={business}
                     active={active}
                     onToggleActive={onToggleActive}
+                    origin={origin}
                 />
             </div>
         );

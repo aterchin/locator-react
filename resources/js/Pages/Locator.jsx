@@ -220,6 +220,7 @@ const Locator = () => {
                                                     businesses={businesses}
                                                     active={active}
                                                     onToggleActive={toggleActive}
+                                                    origin={search.place}
                                                 />
                                             )}
                                         </div>
