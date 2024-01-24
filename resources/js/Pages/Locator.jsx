@@ -42,11 +42,13 @@ const Locator = () => {
     });
 
     const calcDistance = (p1, p2) => {
-        var d = google.maps.geometry.spherical.computeDistanceBetween(p1, p2);
-        // meters to miles
-        return d * 0.00062137;
+        if (typeof google != 'undefined') {
+            var d = google.maps.geometry.spherical.computeDistanceBetween(p1, p2);
+            return d * 0.00062137; // meters to miles
+        } else {
+            return 0;
+        }
     };
-
     const getBusinesses = (url, params) => {
         setLoading(true);
         url = url || '/locations';
