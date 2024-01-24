@@ -84,12 +84,41 @@ const Locator = () => {
 
     const onClickFind = () => {
         // get businesses based off params
-        getBusinesses();
+        getBusinesses('/locations');
     };
 
     const onClickLocate = () => {
-        console.log('getting your geolocation from browser...');
+        if (!navigator.geolocation) {
+            alert('Geolocation is not supported by your browser');
+        } else {
+            const options = {
+                enableHighAccuracy: false,
+                timeout: 5000,
+                maximumAge: 0,
+            };
+            setLoading(true);
+            getPosition(options)
+                .then((position) => {
+                    const { coords } = position;
+                    // we don't need to call getBusinesses because
+                    // in useEffect, page will re-render when coordinates change
+                    setCoordinates({ lat: coords.latitude, lng: coords.longitude });
+                    setPlace('your location');
+                    setDistance(distance);
+                })
+                .catch((err) => {
+                    setLoading(false);
+                    console.error(`ERROR(${err.code}): ${err.message}`);
+                    alert('Unable to retrieve your location');
+                });
+        }
     };
+
+    function getPosition(options) {
+        return new Promise((resolve, reject) =>
+            navigator.geolocation.getCurrentPosition(resolve, reject, options),
+        );
+    }
 
     const onClickPage = (link) => {
         getBusinesses(link.url);
