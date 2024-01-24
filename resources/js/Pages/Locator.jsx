@@ -33,30 +33,18 @@ const Locator = () => {
     const [search, setSearch] = useState({});
 
     // Google Places API
+
+    // ...google maps' geometry used in calcDistance() v Haversine
     const libraries = useMemo(() => ['places', 'geometry'], []);
     const mapLoader = useLoadScript({
         googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
         libraries: libraries,
     });
 
-    var rad = function (x) {
-        return (x * Math.PI) / 180;
-    };
-
-    var getDistance = function (p1, p2) {
-        var R = 6378.137; // Earth’s mean radius in km
-        var dLat = rad(p2.lat - p1.lat);
-        var dLong = rad(p2.lng - p1.lng);
-        var a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(rad(p1.lat)) *
-                Math.cos(rad(p2.lat)) *
-                Math.sin(dLong / 2) *
-                Math.sin(dLong / 2);
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        var d = R * c;
-        d = d * 0.621371; // miles
-        return Math.round(d * 100) / 100;
+    const calcDistance = (p1, p2) => {
+        var d = google.maps.geometry.spherical.computeDistanceBetween(p1, p2);
+        // meters to miles
+        return d * 0.00062137;
     };
 
     const getBusinesses = (url, params) => {
@@ -75,7 +63,7 @@ const Locator = () => {
                         lat: business.location.latitude,
                         lng: business.location.longitude,
                     };
-                    return { ...business, distance: getDistance(pointA, pointB) };
+                    return { ...business, distance: getDistance(pointA, pointB.toFixed(2)) };
                 });
                 updatedBusinesses.sort((a, b) => a.distance - b.distance);
                 setBusinesses(updatedBusinesses);
