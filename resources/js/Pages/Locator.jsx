@@ -92,7 +92,7 @@ const Locator = () => {
     };
 
     const onClickPage = (link) => {
-        console.log('pagination clicked: ', link);
+        getBusinesses(link.url);
     };
 
     const toggleActive = (id) => {
