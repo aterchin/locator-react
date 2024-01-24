@@ -19,7 +19,8 @@ const PlacesInput = ({ setCoordinates, setPlace }) => {
     });
 
     const handleChange = async (address) => {
-        setValue(address, false); // false to prevent fetch of additional data
+        // false to prevent fetch of additional data
+        setValue(address, false);
         clearSuggestions();
 
         const results = await getGeocode({ address });
@@ -34,7 +35,7 @@ const PlacesInput = ({ setCoordinates, setPlace }) => {
                 displayValue={value}
                 onChange={(e) => setValue(e.target.value)}
                 disabled={!ready}
-                className="w-full rounded-lg bg-white py-4 pl-3 pr-10 border-0 shadow-sm outline-none focus:ring-2 focus:ring-xeomin-pink sm:text-sm placeholder:text-xeomin-blue-200/70"
+                className="w-full rounded-lg bg-white py-4 pl-3 pr-10 border-0 shadow-sm outline-none focus:ring-2 focus:ring-brand-primary sm:text-sm placeholder:text-brand-secondary-200/70"
                 placeholder="Enter ZIP, City and State or Street Address"
             />
             <Combobox.Options className="absolute max-h-60 w-full overflow-auto rounded-lg bg-white my-3 text-base shadow-lg z-10">

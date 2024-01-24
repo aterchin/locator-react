@@ -23,7 +23,7 @@ const DistanceInput = ({ distance, setDistance }) => {
     };
     return (
         <Listbox value={selected} onChange={handleChange}>
-            <Listbox.Button className="relative w-full rounded-lg bg-white py-4 pl-3 pr-10 shadow-md focus:outline-none focus:ring-2 focus:ring-xeomin-pink sm:text-sm text-xeomin-blue-200">
+            <Listbox.Button className="relative w-full rounded-lg bg-white py-4 pl-3 pr-10 shadow-md focus:outline-none focus:ring-2 focus:ring-brand-primary sm:text-sm text-brand-secondary-200">
                 <span className="block truncate">{selected.label}</span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                     <ChevronUpDownIcon className="h-5 w-5" aria-hidden="true" />

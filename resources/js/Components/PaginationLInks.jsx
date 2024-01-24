@@ -70,7 +70,7 @@ export default function PaginationLinks({ meta, onClickPage }) {
                                                 'relative z-10 inline-flex items-center px-4 py-2 text-sm font-medium hover:bg-gray-100 text-gray-500 ' +
                                                 (prev ? 'rounded-l-md ' : '') +
                                                 (next ? 'rounded-r-md ' : '') +
-                                                (link.active ? 'text-xeomin-blue ' : '') +
+                                                (link.active ? 'text-brand-secondary ' : '') +
                                                 (link.url === null ? 'pointer-events-none ' : '')
                                             }
                                         >
