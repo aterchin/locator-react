@@ -24,7 +24,8 @@ const Locator = () => {
     // { lat: (int), lng: (int) } (obj)
     const [coordinates, setCoordinates] = useState({ lat: 40.7639, lng: -73.9794 });
     const [place, setPlace] = useState('20 W 34th St., New York, NY 10001');
-    const [distance, setDistance] = useState(10); // miles from center (int)
+    // miles from center (int)
+    const [distance, setDistance] = useState(10);
 
     // active: business id (int) or null
     const [active, setActive] = useState(null);
@@ -38,6 +39,26 @@ const Locator = () => {
         libraries: libraries,
     });
 
+    var rad = function (x) {
+        return (x * Math.PI) / 180;
+    };
+
+    var getDistance = function (p1, p2) {
+        var R = 6378.137; // Earth’s mean radius in km
+        var dLat = rad(p2.lat - p1.lat);
+        var dLong = rad(p2.lng - p1.lng);
+        var a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(rad(p1.lat)) *
+                Math.cos(rad(p2.lat)) *
+                Math.sin(dLong / 2) *
+                Math.sin(dLong / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c;
+        d = d * 0.621371; // miles
+        return Math.round(d * 100) / 100;
+    };
+
     const getBusinesses = (url, params) => {
         setLoading(true);
         url = url || '/locations';
@@ -46,7 +67,20 @@ const Locator = () => {
         axiosClient
             .get(url, { params })
             .then(({ data }) => {
-                setBusinesses(data.data);
+                //console.log(data);
+
+                const pointA = params.coordinates;
+                const updatedBusinesses = data.data.map((business, i) => {
+                    const pointB = {
+                        lat: business.location.latitude,
+                        lng: business.location.longitude,
+                    };
+                    return { ...business, distance: getDistance(pointA, pointB) };
+                });
+                updatedBusinesses.sort((a, b) => a.distance - b.distance);
+                setBusinesses(updatedBusinesses);
+
+                //setBusinesses(data.data);
                 setMeta(data.meta);
                 setFromTo([data.meta.from, data.meta.to]);
                 // to update our front-facing components
@@ -179,7 +213,11 @@ const Locator = () => {
                                         <div className="m-2 p-1 border border-brand-primary-200">
                                             <div id="main-map">
                                                 <Map
-                                                    center={coordinates}
+                                                    center={
+                                                        search.coordinates
+                                                            ? search.coordinates
+                                                            : coordinates
+                                                    }
                                                     businesses={businesses}
                                                     fromTo={fromTo}
                                                     active={active}
