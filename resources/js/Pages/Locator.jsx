@@ -57,20 +57,16 @@ const Locator = () => {
         axiosClient
             .get(url, { params })
             .then(({ data }) => {
-                //console.log(data);
-
                 const pointA = params.coordinates;
                 const updatedBusinesses = data.data.map((business, i) => {
                     const pointB = {
                         lat: business.location.latitude,
                         lng: business.location.longitude,
                     };
-                    return { ...business, distance: getDistance(pointA, pointB.toFixed(2)) };
+                    return { ...business, distance: calcDistance(pointA, pointB).toFixed(2) };
                 });
                 updatedBusinesses.sort((a, b) => a.distance - b.distance);
                 setBusinesses(updatedBusinesses);
-
-                //setBusinesses(data.data);
                 setMeta(data.meta);
                 setFromTo([data.meta.from, data.meta.to]);
                 // to update our front-facing components
@@ -88,7 +84,7 @@ const Locator = () => {
 
     const onClickFind = () => {
         // get businesses based off params
-        console.log('finding based off params...');
+        getBusinesses();
     };
 
     const onClickLocate = () => {
