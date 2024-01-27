@@ -19,8 +19,8 @@ const BusinessListItem = ({ business, active, onToggleActive, origin, className 
             className={
                 'flex flex-col justify-between h-32 p-2 mx-4 mb-4 text-sm leading-snug ' +
                 (active === business.id
-                    ? 'active bg-brand-primary-light/20 focus:bg-brand-primary-light/30'
-                    : 'inactive hover:bg-brand-secondary-light/20 focus:bg-brand-secondary-light') +
+                    ? 'active bg-brand-primary/10 focus:bg-brand-primary-light/30'
+                    : 'inactive hover:bg-brand-primary/10 focus:bg-brand-secondary-light border border-brand-primary/30') +
                 className
             }
             onClick={() => handleClick(business.id)}
@@ -36,7 +36,7 @@ const BusinessListItem = ({ business, active, onToggleActive, origin, className 
                     <a
                         href={directionsUrl(origin, business.location.address)}
                         target="_blank"
-                        className="inline-block text-brand-primary"
+                        className="inline-block text-green-800 font-bold"
                     >
                         Get Directions
                     </a>

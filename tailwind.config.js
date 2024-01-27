@@ -18,12 +18,12 @@ export default {
             },
             colors: {
                 'brand-primary': {
-                    200: '#341930',
-                    DEFAULT: '#830A0D',
-                    light: '#d7afb0',
+                    200: '#213b16',
+                    DEFAULT: '#589240',
+                    light: '#c0e7af',
                 },
                 'brand-secondary': {
-                    DEFAULT: '#696969',
+                    DEFAULT: '#830A0D',
                     light: '#8b8b8b',
                 },
             },
