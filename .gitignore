@@ -18,6 +18,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/.nova
 
 # dynamic imports
 /database/csv/business_data.csv
